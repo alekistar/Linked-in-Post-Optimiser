@@ -16,6 +16,7 @@ export default async function handler(req: any, res: any) {
 
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
+    console.error("OPENAI_API_KEY is missing");
     res.status(500).json({ error: "Server is missing OPENAI_API_KEY" });
     return;
   }
@@ -41,9 +42,24 @@ export default async function handler(req: any, res: any) {
       return;
     }
 
-    const data = JSON.parse(responseContent);
-    res.status(200).json({ hashtags: data.hashtags || [] });
+    let data: { hashtags?: unknown };
+    try {
+      data = JSON.parse(responseContent) as { hashtags?: unknown };
+    } catch (parseError) {
+      console.error("Failed to parse hashtags JSON", parseError, responseContent.slice(0, 500));
+      res.status(200).json({ hashtags: [] });
+      return;
+    }
+
+    if (!Array.isArray(data.hashtags)) {
+      console.error("Model JSON missing hashtags array", data);
+      res.status(200).json({ hashtags: [] });
+      return;
+    }
+
+    res.status(200).json({ hashtags: data.hashtags });
   } catch (error) {
+    console.error("OpenAI hashtags error", error);
     res.status(200).json({ hashtags: [] });
   }
 }

@@ -34,6 +34,7 @@ export default async function handler(req: any, res: any) {
 
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
+    console.error("OPENAI_API_KEY is missing");
     res.status(500).json({ error: "Server is missing OPENAI_API_KEY" });
     return;
   }
@@ -58,10 +59,25 @@ export default async function handler(req: any, res: any) {
       return;
     }
 
-    const data = JSON.parse(content);
-    res.status(200).json(data.posts || []);
+    let data: { posts?: unknown };
+    try {
+      data = JSON.parse(content) as { posts?: unknown };
+    } catch (parseError) {
+      console.error("Failed to parse model JSON", parseError, content.slice(0, 500));
+      res.status(502).json({ error: "Model returned invalid JSON" });
+      return;
+    }
+
+    if (!Array.isArray(data.posts)) {
+      console.error("Model JSON missing posts array", data);
+      res.status(502).json({ error: "Model returned unexpected JSON" });
+      return;
+    }
+
+    res.status(200).json(data.posts);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
+    console.error("OpenAI optimize-posts error", error);
     res.status(500).json({ error: message || "Failed to generate posts" });
   }
 }
