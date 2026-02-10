@@ -1,6 +1,6 @@
-import { GoogleGenAI, Type } from "@google/genai";
+import OpenAI from "openai";
 
-const modelId = "gemini-2.0-flash" as const;
+const modelId = "gpt-4o-mini" as const;
 
 const systemInstruction = `You are an expert LinkedIn ghostwriter known for "Zero Cringe" content. Rewrite rough drafts into high-performing, authentic LinkedIn posts.
 
@@ -32,57 +32,34 @@ export default async function handler(req: any, res: any) {
     return;
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    res.status(500).json({ error: "Server is missing GEMINI_API_KEY" });
+    res.status(500).json({ error: "Server is missing OPENAI_API_KEY" });
     return;
   }
 
   try {
-    const ai = new GoogleGenAI({ apiKey });
-    const prompt = `Rewrite the following draft into 3 distinct variations using the "${tone}" tone.\n\nDraft: "${draft}"`;
+    const client = new OpenAI({ apiKey });
+    const prompt = `Rewrite the following draft into 3 distinct variations using the "${tone}" tone.\n\nDraft: "${draft}"\n\nReturn JSON ONLY in the shape: { "posts": [ { "headline": "", "content": "", "tags": [""], "toneExplanation": "" } ] }`;
 
-    const response = await ai.models.generateContent({
+    const response = await client.chat.completions.create({
       model: modelId,
-      contents: prompt,
-      config: {
-        systemInstruction,
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.ARRAY,
-          items: {
-            type: Type.OBJECT,
-            properties: {
-              headline: {
-                type: Type.STRING,
-                description: "Catchy, short first line hook.",
-              },
-              content: {
-                type: Type.STRING,
-                description: "Full body of post with line breaks.",
-              },
-              tags: {
-                type: Type.ARRAY,
-                items: { type: Type.STRING },
-                description: "3-5 relevant hashtags.",
-              },
-              toneExplanation: {
-                type: Type.STRING,
-                description: "Brief explanation of tone alignment.",
-              },
-            },
-            required: ["headline", "content", "tags", "toneExplanation"],
-          },
-        },
-      },
+      messages: [
+        { role: "system", content: systemInstruction },
+        { role: "user", content: prompt },
+      ],
+      response_format: { type: "json_object" },
+      temperature: 0.7,
     });
 
-    if (!response.text) {
+    const content = response.choices[0]?.message?.content;
+    if (!content) {
       res.status(502).json({ error: "No response from model" });
       return;
     }
 
-    res.status(200).json(JSON.parse(response.text));
+    const data = JSON.parse(content);
+    res.status(200).json(data.posts || []);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     res.status(500).json({ error: message || "Failed to generate posts" });

@@ -1,6 +1,6 @@
-import { GoogleGenAI, Type } from "@google/genai";
+import OpenAI from "openai";
 
-const modelId = "gemini-2.0-flash" as const;
+const modelId = "gpt-4o-mini" as const;
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
@@ -14,39 +14,34 @@ export default async function handler(req: any, res: any) {
     return;
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    res.status(500).json({ error: "Server is missing GEMINI_API_KEY" });
+    res.status(500).json({ error: "Server is missing OPENAI_API_KEY" });
     return;
   }
 
   try {
-    const ai = new GoogleGenAI({ apiKey });
     const prompt = `Analyze the following LinkedIn post and suggest 10 trending, high-reach hashtags. Focus on niche tags with good engagement, not generic ones like #business.\n\nPost: "${content}"`;
-
-    const response = await ai.models.generateContent({
+    const client = new OpenAI({ apiKey });
+    const response = await client.chat.completions.create({
       model: modelId,
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            hashtags: {
-              type: Type.ARRAY,
-              items: { type: Type.STRING },
-            },
-          },
+      messages: [
+        {
+          role: "user",
+          content: `${prompt}\n\nReturn JSON ONLY in the shape: { "hashtags": ["#tag"] }`,
         },
-      },
+      ],
+      response_format: { type: "json_object" },
+      temperature: 0.4,
     });
 
-    if (!response.text) {
+    const responseContent = response.choices[0]?.message?.content;
+    if (!responseContent) {
       res.status(200).json({ hashtags: [] });
       return;
     }
 
-    const data = JSON.parse(response.text);
+    const data = JSON.parse(responseContent);
     res.status(200).json({ hashtags: data.hashtags || [] });
   } catch (error) {
     res.status(200).json({ hashtags: [] });
