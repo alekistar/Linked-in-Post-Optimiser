@@ -28,9 +28,29 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = React.memo(({ resul
   // Publish State
   const [publishingIndex, setPublishingIndex] = useState<number | null>(null);
 
+  const formatHashtag = useCallback((tag: string) => {
+    const cleaned = tag
+      .trim()
+      .replace(/^#+/, '')
+      .replace(/\s+/g, '')
+      .replace(/[^\p{L}\p{N}_]/gu, '');
+
+    return cleaned ? `#${cleaned}` : '';
+  }, []);
+
+  const getFormattedHashtags = useCallback((post: OptimizedPost, index: number) => {
+    const combinedTags = [...post.tags, ...(extraHashtags[index] || [])]
+      .map(formatHashtag)
+      .filter(Boolean);
+
+    return Array.from(new Set(combinedTags));
+  }, [extraHashtags, formatHashtag]);
+
   const getFullText = useCallback((post: OptimizedPost, index: number) => {
-    return `${post.headline}\n\n${post.content}\n\n${post.tags.join(' ')} ${extraHashtags[index]?.join(' ') || ''}`.trim();
-  }, [extraHashtags]);
+    const hashtags = getFormattedHashtags(post, index);
+    const hashtagBlock = hashtags.length > 0 ? `\n\n${hashtags.join(' ')}` : '';
+    return `${post.headline}\n\n${post.content}${hashtagBlock}`.trim();
+  }, [getFormattedHashtags]);
 
   const handleCopy = useCallback((index: number, post: OptimizedPost) => {
     const text = getFullText(post, index);
@@ -184,12 +204,20 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = React.memo(({ resul
               <div className="mt-auto space-y-4">
                 <div>
                     <div className="flex flex-wrap gap-2 mb-2">
-                    {post.tags.map(tag => (
-                        <span key={tag} className="text-xs text-neon-blue">#{tag}</span>
-                    ))}
-                    {extraHashtags[index]?.map(tag => (
-                        <span key={tag} className="text-xs text-neon-purple animate-in fade-in zoom-in">#{tag}</span>
-                    ))}
+                    {post.tags.map((tag, tagIndex) => {
+                        const normalizedTag = formatHashtag(tag);
+                        if (!normalizedTag) return null;
+                        return (
+                          <span key={`${normalizedTag}-${tagIndex}`} className="text-xs text-neon-blue">{normalizedTag}</span>
+                        );
+                    })}
+                    {extraHashtags[index]?.map((tag, tagIndex) => {
+                        const normalizedTag = formatHashtag(tag);
+                        if (!normalizedTag) return null;
+                        return (
+                          <span key={`${normalizedTag}-${tagIndex}`} className="text-xs text-neon-purple animate-in fade-in zoom-in">{normalizedTag}</span>
+                        );
+                    })}
                     </div>
                     
                     {!extraHashtags[index] && (
