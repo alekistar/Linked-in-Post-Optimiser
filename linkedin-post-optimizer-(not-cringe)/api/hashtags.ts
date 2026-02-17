@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 
-const modelId = "mixtral-8x7b-32768" as const;
+const modelId = "llama-3.1-8b-instant" as const;
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {

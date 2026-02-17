@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 
-const modelId = "mixtral-8x7b-32768" as const;
+const modelId = "llama-3.1-8b-instant" as const;
 
 const systemInstruction = `You are an expert LinkedIn ghostwriter known for "Zero Cringe" content. Rewrite rough drafts into high-performing, authentic LinkedIn posts.
 
