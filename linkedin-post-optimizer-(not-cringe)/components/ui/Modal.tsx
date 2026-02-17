@@ -12,12 +12,12 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg bg-neon-bg border border-white/10 rounded-xl shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
-        <div className="flex items-center justify-between p-4 border-b border-white/10 bg-white/5">
-          <h3 className="text-lg font-bold text-white">{title}</h3>
-          <button onClick={onClose} className="p-1 hover:bg-white/10 rounded-full transition-colors">
-            <X className="w-5 h-5 text-slate-400" />
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/45 dark:bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="relative w-full max-w-lg app-card border rounded-xl shadow-[0_16px_60px_rgba(15,23,42,0.2)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden">
+        <div className="flex items-center justify-between p-4 border-b border-slate-300/70 dark:border-white/10 bg-slate-100/70 dark:bg-white/5">
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white">{title}</h3>
+          <button onClick={onClose} className="p-1 hover:bg-slate-900/5 dark:hover:bg-white/10 rounded-full transition-colors">
+            <X className="w-5 h-5 text-slate-500 dark:text-slate-400" />
           </button>
         </div>
         <div className="p-6">

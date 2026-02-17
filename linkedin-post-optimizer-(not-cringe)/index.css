@@ -1,1 +1,110 @@
-/* Reserved for future global styles. */
+:root {
+	--bg: #f8fafc;
+	--bg-elevated: #ffffff;
+	--bg-soft: #eef2ff;
+	--text: #0f172a;
+	--text-muted: #475569;
+	--border: #cbd5e1;
+	--accent: #0284c7;
+	--accent-strong: #0369a1;
+	--purple: #7c3aed;
+}
+
+.dark {
+	--bg: #05050a;
+	--bg-elevated: #0a0a12;
+	--bg-soft: #0f172a;
+	--text: #e2e8f0;
+	--text-muted: #94a3b8;
+	--border: rgba(255, 255, 255, 0.12);
+	--accent: #00f3ff;
+	--accent-strong: #00c7d4;
+	--purple: #bc13fe;
+}
+
+html,
+body,
+#root {
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+	background: radial-gradient(circle at 20% 10%, color-mix(in srgb, var(--accent) 15%, transparent), transparent 30%),
+		radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--purple) 14%, transparent), transparent 35%),
+		var(--bg);
+	color: var(--text);
+	font-family: 'Inter', system-ui, sans-serif;
+	transition: background-color 240ms ease, color 240ms ease;
+}
+
+.app-shell {
+	color: var(--text);
+}
+
+.app-header {
+	background: color-mix(in srgb, var(--bg) 88%, transparent);
+	border-color: color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+.app-brand {
+	color: var(--text);
+}
+
+.app-muted {
+	color: var(--text-muted);
+}
+
+.app-card {
+	background: color-mix(in srgb, var(--bg-elevated) 84%, transparent);
+	border-color: var(--border);
+	box-shadow: 0 10px 40px -24px color-mix(in srgb, var(--text) 28%, transparent);
+}
+
+.app-panel {
+	background: color-mix(in srgb, var(--bg-soft) 88%, transparent);
+	border: 1px solid var(--border);
+}
+
+.app-input {
+	background: color-mix(in srgb, var(--bg) 88%, transparent);
+	color: var(--text);
+	border-color: var(--border);
+}
+
+.app-input::placeholder {
+	color: color-mix(in srgb, var(--text-muted) 70%, transparent);
+}
+
+.app-input:focus {
+	border-color: var(--accent);
+	box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.theme-toggle {
+	border: 1px solid var(--border);
+	color: var(--text-muted);
+	background: color-mix(in srgb, var(--bg-elevated) 78%, transparent);
+}
+
+.theme-toggle:hover {
+	color: var(--text);
+	border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: color-mix(in srgb, var(--bg-elevated) 80%, transparent);
+}
+
+::-webkit-scrollbar-thumb {
+	background: color-mix(in srgb, var(--text-muted) 58%, transparent);
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: color-mix(in srgb, var(--text-muted) 78%, transparent);
+}

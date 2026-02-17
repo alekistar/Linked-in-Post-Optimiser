@@ -101,7 +101,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = React.memo(({ resul
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-10 duration-700">
       
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+        <h2 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-500 dark:from-white dark:to-slate-400">
           Optimized Versions
         </h2>
         <button 
@@ -120,17 +120,17 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = React.memo(({ resul
               <AlertCircle className="w-5 h-5" />
               <h3 className="font-bold">Growth Hack: The "Before vs. After" Post</h3>
             </div>
-            <p className="text-sm text-slate-300 mb-6">
+            <p className="text-sm text-slate-600 dark:text-slate-300 mb-6">
               Screenshot this card and post it to show your audience how you iterate on content. High engagement format!
             </p>
-            <div className="grid md:grid-cols-2 gap-6 bg-black/40 p-4 rounded-lg border border-white/5">
+            <div className="grid md:grid-cols-2 gap-6 bg-slate-100/80 dark:bg-black/40 p-4 rounded-lg border border-slate-300/60 dark:border-white/5">
               <div>
                 <span className="text-xs font-mono text-red-400 mb-2 block uppercase tracking-wider">Before (Cringe/Robot)</span>
-                <p className="text-sm text-slate-400 italic line-through decoration-red-500/50">{original.substring(0, 150)}...</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400 italic line-through decoration-red-500/50">{original.substring(0, 150)}...</p>
               </div>
-              <div className="border-l border-white/10 md:pl-6">
+              <div className="border-l border-slate-300/60 dark:border-white/10 md:pl-6">
                 <span className="text-xs font-mono text-green-400 mb-2 block uppercase tracking-wider">After (Authentic)</span>
-                <p className="text-sm text-slate-200">{results[0].content.substring(0, 150)}...</p>
+                <p className="text-sm text-slate-700 dark:text-slate-200">{results[0].content.substring(0, 150)}...</p>
               </div>
             </div>
           </div>
@@ -148,7 +148,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = React.memo(({ resul
                 <div className="flex gap-2">
                    <button
                     onClick={() => openScheduleModal(post)}
-                    className="p-2 hover:bg-white/10 rounded-full transition-colors text-slate-400 hover:text-neon-purple"
+                    className="p-2 hover:bg-slate-900/5 dark:hover:bg-white/10 rounded-full transition-colors text-slate-500 dark:text-slate-400 hover:text-neon-purple"
                     title="Schedule Post"
                   >
                     <CalendarPlus className="w-4 h-4" />
@@ -159,7 +159,7 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = React.memo(({ resul
                       p-2 rounded-full transition-all duration-300 flex items-center justify-center
                       ${copiedIndex === index 
                         ? 'bg-green-500/20 text-green-400 scale-110 shadow-[0_0_15px_rgba(74,222,128,0.4)] rotate-0' 
-                        : 'hover:bg-white/10 text-slate-400 hover:text-white'
+                        : 'hover:bg-slate-900/5 dark:hover:bg-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                       }
                     `}
                     title="Copy for LinkedIn"
@@ -173,11 +173,11 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = React.memo(({ resul
                 </div>
               </div>
 
-              <h3 className="font-bold text-lg mb-3 text-white leading-tight">
+              <h3 className="font-bold text-lg mb-3 text-slate-900 dark:text-white leading-tight">
                 {post.headline}
               </h3>
 
-              <div className="flex-grow whitespace-pre-wrap text-slate-300 text-sm leading-relaxed mb-6 font-light">
+              <div className="flex-grow whitespace-pre-wrap text-slate-700 dark:text-slate-300 text-sm leading-relaxed mb-6 font-light">
                 {post.content}
               </div>
 
@@ -210,9 +210,9 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = React.memo(({ resul
                     )}
                 </div>
 
-                <div className="border-t border-white/10 pt-3 flex flex-col gap-3">
-                  <p className="text-xs text-slate-500">
-                    <span className="text-slate-400 font-medium">Why it works:</span> {post.toneExplanation}
+                <div className="border-t border-slate-300/60 dark:border-white/10 pt-3 flex flex-col gap-3">
+                  <p className="text-xs text-slate-600 dark:text-slate-500">
+                    <span className="text-slate-700 dark:text-slate-400 font-medium">Why it works:</span> {post.toneExplanation}
                   </p>
                   
                   <button
@@ -246,16 +246,16 @@ export const ResultsDisplay: React.FC<ResultsDisplayProps> = React.memo(({ resul
         title="Schedule Post"
       >
         <div className="space-y-4">
-            <p className="text-sm text-slate-300">
+            <p className="text-sm text-slate-700 dark:text-slate-300">
                 Pick a time to automatically publish this post to your calendar.
             </p>
             <div>
-                <label className="block text-xs font-bold text-slate-400 mb-2">DATE & TIME</label>
+              <label className="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-2">DATE & TIME</label>
                 <input 
                     type="datetime-local" 
                     value={scheduleDate}
                     onChange={(e) => setScheduleDate(e.target.value)}
-                    className="w-full bg-black/50 border border-white/10 rounded px-3 py-2 text-white focus:border-neon-cyan outline-none"
+                className="app-input w-full rounded px-3 py-2"
                 />
             </div>
             <div className="pt-4 flex justify-end gap-2">

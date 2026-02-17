@@ -41,14 +41,14 @@ export const ContentCalendar: React.FC<ContentCalendarProps> = ({ scheduledPosts
   return (
     <div className="space-y-6 animate-in slide-in-from-bottom-5 duration-500">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-white">Content Calendar</h2>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Content Calendar</h2>
         <div className="text-sm font-mono text-neon-cyan">
           {new Date().toLocaleString('default', { month: 'long', year: 'numeric' })}
         </div>
       </div>
 
-      <Card className="p-6 bg-black/20">
-        <div className="grid grid-cols-7 gap-4 mb-4 text-center text-xs font-mono text-slate-500 uppercase">
+      <Card className="p-6 bg-white/70 dark:bg-black/20">
+        <div className="grid grid-cols-7 gap-4 mb-4 text-center text-xs font-mono text-slate-500 dark:text-slate-500 uppercase">
           <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
         </div>
         <div className="grid grid-cols-7 gap-2 md:gap-4">
@@ -60,21 +60,21 @@ export const ContentCalendar: React.FC<ContentCalendarProps> = ({ scheduledPosts
               <div 
                 key={day} 
                 className={`
-                  min-h-[80px] md:min-h-[120px] rounded-lg border p-2 flex flex-col gap-1 transition-all hover:bg-white/5
-                  ${isToday ? 'border-neon-cyan/50 bg-neon-cyan/5' : 'border-white/5 bg-white/5'}
+                  min-h-[80px] md:min-h-[120px] rounded-lg border p-2 flex flex-col gap-1 transition-all hover:bg-slate-900/5 dark:hover:bg-white/5
+                  ${isToday ? 'border-neon-cyan/50 bg-neon-cyan/10 dark:bg-neon-cyan/5' : 'border-slate-300/60 dark:border-white/5 bg-slate-100/65 dark:bg-white/5'}
                 `}
               >
-                <span className={`text-xs font-bold ${isToday ? 'text-neon-cyan' : 'text-slate-500'}`}>
+                <span className={`text-xs font-bold ${isToday ? 'text-neon-cyan' : 'text-slate-600 dark:text-slate-500'}`}>
                   {day}
                 </span>
                 
                 {posts.map(post => (
                   <div key={post.id} className="group relative">
-                    <div className="text-[10px] p-1.5 rounded bg-neon-purple/20 border border-neon-purple/30 text-neon-purple truncate cursor-pointer hover:bg-neon-purple/30">
+                    <div className="text-[10px] p-1.5 rounded bg-violet-500/15 dark:bg-neon-purple/20 border border-violet-400/50 dark:border-neon-purple/30 text-violet-700 dark:text-neon-purple truncate cursor-pointer hover:bg-violet-500/25 dark:hover:bg-neon-purple/30">
                       {post.headline}
                     </div>
                     {/* Tooltip */}
-                    <div className="absolute hidden group-hover:block z-20 w-56 p-3 bg-slate-900 border border-white/20 rounded-lg shadow-xl -top-2 left-full ml-2 text-xs text-slate-300">
+                    <div className="absolute hidden group-hover:block z-20 w-56 p-3 bg-white dark:bg-slate-900 border border-slate-300/80 dark:border-white/20 rounded-lg shadow-xl -top-2 left-full ml-2 text-xs text-slate-700 dark:text-slate-300">
                       <div className="flex items-center gap-1 mb-2 text-neon-cyan font-bold">
                          <Clock className="w-3 h-3" />
                          {new Date(post.scheduledDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
@@ -85,7 +85,7 @@ export const ContentCalendar: React.FC<ContentCalendarProps> = ({ scheduledPosts
                             e.stopPropagation();
                             addToGoogleCalendar(post);
                         }}
-                        className="w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 py-1.5 rounded transition-colors text-white"
+                        className="w-full flex items-center justify-center gap-2 bg-slate-900/5 dark:bg-white/10 hover:bg-slate-900/10 dark:hover:bg-white/20 py-1.5 rounded transition-colors text-slate-800 dark:text-white"
                       >
                         <CalendarIcon className="w-3 h-3" />
                         Add to Calendar
@@ -101,26 +101,26 @@ export const ContentCalendar: React.FC<ContentCalendarProps> = ({ scheduledPosts
 
       <div className="grid gap-4 md:grid-cols-2">
         <Card className="p-4 border-l-4 border-l-neon-cyan">
-            <h3 className="font-bold text-white mb-4">Upcoming Schedule</h3>
+          <h3 className="font-bold text-slate-900 dark:text-white mb-4">Upcoming Schedule</h3>
             {scheduledPosts.length === 0 ? (
-                <p className="text-sm text-slate-500">No posts scheduled yet.</p>
+            <p className="text-sm text-slate-500 dark:text-slate-500">No posts scheduled yet.</p>
             ) : (
                 <ul className="space-y-3">
                     {scheduledPosts.sort((a,b) => new Date(a.scheduledDate).getTime() - new Date(b.scheduledDate).getTime()).map(post => (
-                        <li key={post.id} className="flex items-center justify-between gap-4 text-sm bg-white/5 p-3 rounded-lg group hover:bg-white/10 transition-colors">
+                <li key={post.id} className="flex items-center justify-between gap-4 text-sm bg-slate-100/70 dark:bg-white/5 p-3 rounded-lg group hover:bg-slate-900/5 dark:hover:bg-white/10 transition-colors">
                             <div className="flex items-center gap-3 overflow-hidden">
-                                <div className="flex flex-col items-center justify-center bg-black/40 w-12 h-12 rounded border border-white/10">
-                                    <span className="text-xs text-slate-500 uppercase">{new Date(post.scheduledDate).toLocaleString('default', {month:'short'})}</span>
+                    <div className="flex flex-col items-center justify-center bg-white/80 dark:bg-black/40 w-12 h-12 rounded border border-slate-300/70 dark:border-white/10">
+                      <span className="text-xs text-slate-500 dark:text-slate-500 uppercase">{new Date(post.scheduledDate).toLocaleString('default', {month:'short'})}</span>
                                     <span className="font-bold text-neon-cyan">{new Date(post.scheduledDate).getDate()}</span>
                                 </div>
                                 <div className="flex flex-col overflow-hidden">
-                                    <span className="font-medium text-white truncate">{post.headline}</span>
-                                    <span className="text-xs text-slate-400">{new Date(post.scheduledDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                      <span className="font-medium text-slate-900 dark:text-white truncate">{post.headline}</span>
+                      <span className="text-xs text-slate-500 dark:text-slate-400">{new Date(post.scheduledDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                                 </div>
                             </div>
                             <button 
                                 onClick={() => addToGoogleCalendar(post)}
-                                className="p-2 text-slate-400 hover:text-neon-cyan hover:bg-neon-cyan/10 rounded-full transition-all"
+                    className="p-2 text-slate-500 dark:text-slate-400 hover:text-neon-cyan hover:bg-neon-cyan/10 rounded-full transition-all"
                                 title="Add to Google Calendar"
                             >
                                 <ExternalLink className="w-4 h-4" />
