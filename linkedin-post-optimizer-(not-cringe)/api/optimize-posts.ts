@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 
-const modelId = "gpt-4o-mini" as const;
+const modelId = "mixtral-8x7b-32768" as const;
 
 const systemInstruction = `You are an expert LinkedIn ghostwriter known for "Zero Cringe" content. Rewrite rough drafts into high-performing, authentic LinkedIn posts.
 
@@ -32,15 +32,18 @@ export default async function handler(req: any, res: any) {
     return;
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
-    console.error("OPENAI_API_KEY is missing");
-    res.status(500).json({ error: "Server is missing OPENAI_API_KEY" });
+    console.error("GROQ_API_KEY is missing");
+    res.status(500).json({ error: "Server is missing GROQ_API_KEY" });
     return;
   }
 
   try {
-    const client = new OpenAI({ apiKey });
+    const client = new OpenAI({
+      apiKey,
+      baseURL: "https://api.groq.com/openai/v1",
+    });
     const prompt = `Rewrite the following draft into 3 distinct variations using the "${tone}" tone.\n\nDraft: "${draft}"\n\nReturn JSON ONLY in the shape: { "posts": [ { "headline": "", "content": "", "tags": [""], "toneExplanation": "" } ] }`;
 
     const response = await client.chat.completions.create({
@@ -77,7 +80,7 @@ export default async function handler(req: any, res: any) {
     res.status(200).json(data.posts);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    console.error("OpenAI optimize-posts error", error);
+    console.error("Groq optimize-posts error", error);
     res.status(500).json({ error: message || "Failed to generate posts" });
   }
 }

@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 
-const modelId = "gpt-4o-mini" as const;
+const modelId = "mixtral-8x7b-32768" as const;
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
@@ -14,16 +14,19 @@ export default async function handler(req: any, res: any) {
     return;
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
-    console.error("OPENAI_API_KEY is missing");
-    res.status(500).json({ error: "Server is missing OPENAI_API_KEY" });
+    console.error("GROQ_API_KEY is missing");
+    res.status(500).json({ error: "Server is missing GROQ_API_KEY" });
     return;
   }
 
   try {
     const prompt = `Analyze the following LinkedIn post and suggest 10 trending, high-reach hashtags. Focus on niche tags with good engagement, not generic ones like #business.\n\nPost: "${content}"`;
-    const client = new OpenAI({ apiKey });
+    const client = new OpenAI({
+      apiKey,
+      baseURL: "https://api.groq.com/openai/v1",
+    });
     const response = await client.chat.completions.create({
       model: modelId,
       messages: [
@@ -59,7 +62,7 @@ export default async function handler(req: any, res: any) {
 
     res.status(200).json({ hashtags: data.hashtags });
   } catch (error) {
-    console.error("OpenAI hashtags error", error);
+    console.error("Groq hashtags error", error);
     res.status(200).json({ hashtags: [] });
   }
 }
