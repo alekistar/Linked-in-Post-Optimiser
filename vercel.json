@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "installCommand": "cd linkedin-post-optimizer-(not-cringe) && npm install",
-  "buildCommand": "cd linkedin-post-optimizer-(not-cringe) && npm run build",
+  "installCommand": "npm --prefix \"linkedin-post-optimizer-(not-cringe)\" install",
+  "buildCommand": "npm --prefix \"linkedin-post-optimizer-(not-cringe)\" run build",
   "outputDirectory": "linkedin-post-optimizer-(not-cringe)/dist"
 }
