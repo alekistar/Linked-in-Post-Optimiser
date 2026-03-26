@@ -38,6 +38,31 @@ body {
 	transition: background-color 240ms ease, color 240ms ease;
 }
 
+.aurora-bg {
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	background:
+		radial-gradient(30rem 30rem at 15% 12%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 65%),
+		radial-gradient(28rem 28rem at 82% 10%, color-mix(in srgb, var(--purple) 18%, transparent), transparent 62%),
+		radial-gradient(36rem 30rem at 50% 85%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 68%);
+	filter: saturate(1.25);
+	opacity: 0.9;
+	z-index: 0;
+	animation: drift 12s ease-in-out infinite alternate;
+}
+
+.noise-overlay {
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	background-image: radial-gradient(color-mix(in srgb, var(--text) 5%, transparent) 0.8px, transparent 0.8px);
+	background-size: 4px 4px;
+	opacity: 0.16;
+	z-index: 0;
+	mix-blend-mode: soft-light;
+}
+
 .app-shell {
 	color: var(--text);
 }
@@ -59,6 +84,12 @@ body {
 	background: color-mix(in srgb, var(--bg-elevated) 84%, transparent);
 	border-color: var(--border);
 	box-shadow: 0 10px 40px -24px color-mix(in srgb, var(--text) 28%, transparent);
+	transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.app-card:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 18px 50px -30px color-mix(in srgb, var(--text) 34%, transparent);
 }
 
 .app-panel {
@@ -90,6 +121,57 @@ body {
 .theme-toggle:hover {
 	color: var(--text);
 	border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+}
+
+.feature-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.75rem 0.95rem;
+	border-radius: 0.85rem;
+	border: 1px solid color-mix(in srgb, var(--border) 90%, transparent);
+	background: color-mix(in srgb, var(--bg-elevated) 76%, transparent);
+	backdrop-filter: blur(8px);
+	font-size: 0.78rem;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	color: var(--text-muted);
+	transition: border-color 220ms ease, transform 220ms ease;
+}
+
+.feature-pill:hover {
+	transform: translateY(-2px);
+	border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+}
+
+.shimmer {
+	position: relative;
+	overflow: hidden;
+	background: color-mix(in srgb, var(--text-muted) 22%, transparent);
+}
+
+.shimmer::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	transform: translateX(-100%);
+	background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--bg-elevated) 75%, transparent), transparent);
+	animation: shimmer 1.3s ease-in-out infinite;
+}
+
+@keyframes drift {
+	from {
+		transform: translate3d(0, 0, 0) scale(1);
+	}
+	to {
+		transform: translate3d(0, -14px, 0) scale(1.02);
+	}
+}
+
+@keyframes shimmer {
+	100% {
+		transform: translateX(100%);
+	}
 }
 
 ::-webkit-scrollbar {

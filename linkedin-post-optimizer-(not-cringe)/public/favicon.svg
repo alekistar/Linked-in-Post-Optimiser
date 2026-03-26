@@ -1,0 +1,29 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PostOptimizer AI favicon">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#020617"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="464" height="464" rx="120" fill="url(#bg)"/>
+  <rect x="24" y="24" width="464" height="464" rx="120" fill="none" stroke="#334155" stroke-width="2" opacity="0.7"/>
+
+  <path d="M160 132H220V344H160V132Z" fill="url(#accent)" filter="url(#glow)"/>
+  <path d="M256 195C256 161.863 282.863 135 316 135C349.137 135 376 161.863 376 195V344H320V204C320 194.059 311.941 186 302 186C292.059 186 284 194.059 284 204V344H256V195Z" fill="url(#accent)"/>
+
+  <circle cx="382" cy="126" r="20" fill="#22d3ee" opacity="0.9"/>
+  <circle cx="382" cy="126" r="8" fill="#e2e8f0"/>
+</svg>

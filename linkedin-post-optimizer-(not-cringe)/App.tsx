@@ -8,7 +8,7 @@ import { AnalyticsDashboard } from './components/AnalyticsDashboard';
 import { ContentCalendar } from './components/ContentCalendar';
 import { Button } from './components/ui/Button';
 import { Card } from './components/ui/Card';
-import { Sparkles, Terminal, Linkedin, Moon, Sun } from 'lucide-react';
+import { Sparkles, Terminal, Linkedin, Moon, Sun, ShieldCheck, Wand2, Zap } from 'lucide-react';
 
 type ThemeMode = 'light' | 'dark';
 
@@ -66,7 +66,9 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="app-shell min-h-screen selection:bg-cyan-300/30 dark:selection:bg-cyan-500/30 selection:text-slate-900 dark:selection:text-white pb-20">
+    <div className="app-shell min-h-screen selection:bg-cyan-300/30 dark:selection:bg-cyan-500/30 selection:text-slate-900 dark:selection:text-white pb-20 relative overflow-hidden">
+      <div className="aurora-bg" aria-hidden="true" />
+      <div className="noise-overlay" aria-hidden="true" />
       
       {/* Header */}
       <header className="app-header sticky top-0 z-50 backdrop-blur-lg border-b">
@@ -105,7 +107,7 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 pt-8">
+      <main className="max-w-5xl mx-auto px-4 pt-8 relative z-10">
         
         <Navigation currentView={view} onChange={setView} />
 
@@ -117,6 +119,10 @@ const App: React.FC = () => {
           <div className="animate-in fade-in duration-500">
              {/* Hero */}
             <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cyan-300/70 dark:border-neon-cyan/30 bg-white/70 dark:bg-white/5 backdrop-blur-md text-slate-700 dark:text-slate-300 text-xs font-semibold tracking-[0.12em] uppercase mb-6">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                Production-Ready AI Writing Studio
+              </div>
               <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-slate-700 to-slate-500 dark:from-white dark:via-slate-200 dark:to-slate-500">
                 Make LinkedIn <span className="text-neon-cyan relative">
                   Authentic
@@ -125,9 +131,23 @@ const App: React.FC = () => {
                   </svg>
                 </span>
               </h1>
-              <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+              <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
                 Stop sounding like a sales robot. Transform your rough thoughts into high-engagement content that people actually want to read.
               </p>
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto text-left">
+                <div className="feature-pill">
+                  <Wand2 className="w-4 h-4 text-cyan-500 dark:text-neon-cyan" />
+                  3 refined post styles instantly
+                </div>
+                <div className="feature-pill">
+                  <Zap className="w-4 h-4 text-violet-500 dark:text-neon-purple" />
+                  Tone-preserving AI rewriting
+                </div>
+                <div className="feature-pill">
+                  <Sparkles className="w-4 h-4 text-amber-500" />
+                  Ready for schedule + analytics
+                </div>
+              </div>
             </div>
 
             {/* Input Section */}
@@ -177,6 +197,18 @@ const App: React.FC = () => {
               </Card>
 
               {/* Results Section */}
+              {loading && (
+                <Card className="p-6 md:p-8">
+                  <div className="space-y-4" aria-live="polite" aria-busy="true">
+                    <div className="h-4 w-1/3 rounded shimmer" />
+                    <div className="h-3 w-full rounded shimmer" />
+                    <div className="h-3 w-11/12 rounded shimmer" />
+                    <div className="h-3 w-10/12 rounded shimmer" />
+                    <div className="h-10 w-44 rounded-lg shimmer mt-6" />
+                  </div>
+                </Card>
+              )}
+
               {results && (
                 <div id="results">
                   <ResultsDisplay 
@@ -192,8 +224,8 @@ const App: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="mt-20 border-t border-slate-300/60 dark:border-white/10 py-8 text-center text-slate-600 dark:text-slate-500 text-sm">
-        <p>© 2025 PostOptimizer AI. Built for the builders.</p>
+      <footer className="mt-20 border-t border-slate-300/60 dark:border-white/10 py-8 text-center text-slate-600 dark:text-slate-500 text-sm relative z-10">
+        <p>© 2026 PostOptimizer AI. Built for the builders.</p>
       </footer>
 
     </div>
