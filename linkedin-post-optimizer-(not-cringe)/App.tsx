@@ -4,8 +4,6 @@ import { generateOptimizedPosts } from './services/geminiService';
 import { ToneSelector } from './components/ToneSelector';
 import { ResultsDisplay } from './components/ResultsDisplay';
 import { Navigation } from './components/Navigation';
-import { AnalyticsDashboard } from './components/AnalyticsDashboard';
-import { ContentCalendar } from './components/ContentCalendar';
 import { Button } from './components/ui/Button';
 import { Card } from './components/ui/Card';
 import { Sparkles, Terminal, Linkedin, Moon, Sun, ShieldCheck, Wand2, Zap } from 'lucide-react';
@@ -111,9 +109,12 @@ const App: React.FC = () => {
         
         <Navigation currentView={view} onChange={setView} />
 
-        {view === 'analytics' && <AnalyticsDashboard />}
-        
-        {view === 'calendar' && <ContentCalendar scheduledPosts={scheduledPosts} />}
+        {(view === 'analytics' || view === 'calendar') && (
+          <Card className="p-8 md:p-12 text-center max-w-2xl mx-auto">
+            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-3">Coming soon</h2>
+            <p className="text-slate-600 dark:text-slate-400">This section is currently under development.</p>
+          </Card>
+        )}
 
         {view === 'generator' && (
           <div className="animate-in fade-in duration-500">
